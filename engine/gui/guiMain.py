@@ -20,6 +20,14 @@ perlin_values = array('f', [pnoise1(x, x+1) for x in range(20)])
 
 class UI:
     def __init__(self, window, entity_manager):
+        """A class to handle ```imgui```
+        :param window: A Window from Pyglet
+        :type Window
+        :param entity_manager: An instance of Entity Manager
+        :type EntityManager
+
+        :raises TypeError: when entity_manager is incorrect
+        """
         self.entities = []
         self.clicked, self.current = (None, None)
         if not isinstance(entity_manager, em.EntityManager):
@@ -89,9 +97,9 @@ class UI:
             imgui.end()
 
             imgui.begin("Entity Debug")
-            infoString = f""
+            info_string = f""
             self.clicked, self.current = imgui.listbox(
-                f"Entity Info for ${self.current}\n"+infoString, 1, self.entities
+                f"Entity Info for ${self.current}\n"+info_string, 1, self.entities
             )
             imgui.end()
 
