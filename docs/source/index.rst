@@ -6,6 +6,8 @@
 Welcome to HistorySurvival's documentation!
 ===========================================
 
+Just a simple 3d engine with an ECS (Entity Component System) and editor made with Python!
+
 .. automodule:: engine
 .. automodule:: engine.ecs
 .. automodule:: engine.gui
