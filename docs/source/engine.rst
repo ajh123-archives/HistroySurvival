@@ -10,7 +10,6 @@ Subpackages
    engine.ecs
    engine.gui
    engine.objects
-   engine.resources
    engine.scenes
 
 Submodules

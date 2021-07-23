@@ -9,7 +9,7 @@ from time import time
 from noise import pnoise1
 
 from ..ecs import entity_manager as em
-from ..objects.BaseComponents import TransformComponent
+
 
 C = .01
 L = int(pi * 2 * 100)
@@ -28,7 +28,9 @@ class UI:
 
         :raises TypeError: when entity_manager is incorrect
         """
+        self.lastCurrent = 0
         self.entities = []
+        self.real_entities = []
         self.clicked, self.current = (None, None)
         if not isinstance(entity_manager, em.EntityManager):
             raise TypeError("entity_manager must be an instance of EntityManager")
@@ -45,6 +47,12 @@ class UI:
     def update(self, isEditor=False):
         imgui.new_frame()
         if isEditor and imgui.begin_main_menu_bar():
+            self.entities = []
+            self.real_entities = []
+            for entity in list(self.entity_manager.return_entities()):
+                self.real_entities.append(entity)
+                self.entities.append(str(entity.__module__))
+
             if imgui.begin_menu("File", True):
 
                 clicked_quit, selected_quit = imgui.menu_item(
@@ -96,18 +104,22 @@ class UI:
             )
             imgui.end()
 
-            imgui.begin("Entity Debug")
+            imgui.begin("Entity Selector")
             info_string = f""
             self.clicked, self.current = imgui.listbox(
-                f"Entity Info for ${self.current}\n"+info_string, 1, self.entities
+                "", 1, self.entities
             )
+            imgui.end()
+
+            imgui.begin("Entity Debug")
+            info_string = f""
+            imgui.text(
+                f"Entity Info for ${self.lastCurrent}\n"+info_string
+            )
+            self.real_entities[self.lastCurrent].render_debug(self.entity_manager)
             imgui.end()
 
             imgui.end_frame()
 
         if self.clicked:
-            print(self.current)
-
-        self.entities = []
-        for entity in list(self.entity_manager.return_entities()):
-            self.entities.append(str(entity.__module__))
+            self.lastCurrent = self.current

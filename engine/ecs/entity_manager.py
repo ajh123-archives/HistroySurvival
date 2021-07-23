@@ -150,7 +150,8 @@ class EntityManager:
         :return: A dictionary of Entity instances to their Component instances.
         :rtype: dict
         """
-        return self._components[component_type]
+        component_map = self._components[component_type]
+        return component_map
 
     def add_system(self, *system):
         """Adds given System instances to the Entity Manager.

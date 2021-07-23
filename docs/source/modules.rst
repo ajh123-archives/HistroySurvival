@@ -7,3 +7,4 @@ HistorySurvival
    editor
    engine
    main
+   setup
